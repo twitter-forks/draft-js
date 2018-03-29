@@ -4,11 +4,7 @@
   },
   "name": "draft-js",
   "description": "A React framework for building text editors.",
-<<<<<<< 12705db93eaa273c3d103732520782a55bbc9ef2
   "version": "0.11.0-twitter-forks.1-beta1",
-=======
-  "version": "0.10.5-twitter-forks.8",
->>>>>>> Fix flow type
   "keywords": [
     "draftjs",
     "editor",
