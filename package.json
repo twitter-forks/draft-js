@@ -9,7 +9,7 @@
     "richtext"
   ],
   "homepage": "http://draftjs.org/",
-  "bugs": "https://github.com/facebook/draft-js/issues",
+  "bugs": "https://github.com/twitter-forks/draft-js/issues",
   "files": [
     "dist/",
     "lib/",
@@ -17,7 +17,10 @@
   ],
   "main": "lib/Draft.js",
   "style": "dist/Draft.css",
-  "repository": "facebook/draft-js",
+  "repository": "twitter-forks/draft-js",
+  "publishConfig": {
+    "registry": "https://artifactory.twitter.biz/api/npm/js-releases-local"
+  },
   "license": "MIT",
   "scripts": {
     "prepublish": "npm run build",
