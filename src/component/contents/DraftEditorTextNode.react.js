@@ -116,6 +116,7 @@ class DraftEditorTextNode extends React.Component<Props> {
     if (typeof this.props.style === 'object') {
       additionalProps.style = this.props.style;
     }
+<<<<<<< f6ef695dc6475471bb0bfa27265587fcb0bb0637
 
     return (
       <span
@@ -123,6 +124,10 @@ class DraftEditorTextNode extends React.Component<Props> {
         data-text="true"
         ref={ref => (this._node = ref)}
         {...additionalProps}>
+=======
+    return (
+      <span key={this._forceFlag ? 'A' : 'B'} data-text="true" {...additionalProps}>
+>>>>>>> Problem
         {this.props.children}
       </span>
     );
