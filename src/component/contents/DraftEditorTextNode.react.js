@@ -100,8 +100,13 @@ class DraftEditorTextNode extends React.Component<Props> {
     if (this.props.children === '') {
       return this._forceFlag ? NEWLINE_A : NEWLINE_B;
     }
+
+    const additionalProps = {};
+    if (typeof this.props.style === 'object') {
+      additionalProps.style = this.props.style;
+    }
     return (
-      <span key={this._forceFlag ? 'A' : 'B'} data-text="true">
+      <span key={this._forceFlag ? 'A' : 'B'} data-text="true" {...additionalProps}>
         {this.props.children}
       </span>
     );
