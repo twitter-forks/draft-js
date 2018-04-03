@@ -49,6 +49,9 @@ type Props = {
   // The offset of this string within its block.
   start: number,
 
+  // The style directly applied to DraftEdiorLeaf, usually from decorator
+  style?: Object,
+
   // The set of style(s) names to apply to the node.
   styleSet: DraftInlineStyle,
 
