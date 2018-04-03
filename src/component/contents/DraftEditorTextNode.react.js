@@ -116,6 +116,11 @@ class DraftEditorTextNode extends React.Component<Props> {
     if (typeof this.props.style === 'object') {
       additionalProps.style = this.props.style;
     }
+
+    const additionalProps = {};
+    if (this.props.style === 'object') {
+      additionalProps.style = this.props.style;
+    }
     return (
       <span
         key={this._forceFlag ? 'A' : 'B'}
