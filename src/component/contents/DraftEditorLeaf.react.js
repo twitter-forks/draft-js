@@ -48,6 +48,8 @@ type Props = {
   selection: ?SelectionState,
   // The offset of this string within its block.
   start: number,
+  // The style directly applied to DraftEdiorLeaf, usually from decorator
+  style?: Object,
   // The set of style(s) names to apply to the node.
   styleSet: DraftInlineStyle,
   // The full text to be rendered within this node.
