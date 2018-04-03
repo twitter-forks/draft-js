@@ -102,7 +102,7 @@ class DraftEditorTextNode extends React.Component<Props> {
     }
 
     const additionalProps = {};
-    if (this.props.style === 'object') {
+    if (typeof this.props.style === 'object') {
       additionalProps.style = this.props.style;
     }
     return (
