@@ -169,7 +169,7 @@ class DraftEditorLeaf extends React.Component<Props> {
         data-offset-key={offsetKey}
         ref={ref => (this.leaf = ref)}
         style={styleObj}>
-        <DraftEditorTextNode>{text}</DraftEditorTextNode>
+        <DraftEditorTextNode style={this.props.style}>{text}</DraftEditorTextNode>
       </span>
     );
   }
