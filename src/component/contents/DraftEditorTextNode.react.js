@@ -120,7 +120,8 @@ class DraftEditorTextNode extends React.Component<Props> {
       <span
         key={this._forceFlag ? 'A' : 'B'}
         data-text="true"
-        ref={ref => (this._node = ref)}>
+        ref={ref => (this._node = ref)}
+        {...additionalProps}>
         {this.props.children}
       </span>
     );
