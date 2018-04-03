@@ -103,11 +103,17 @@ class DraftEditorTextNode extends React.Component<Props> {
         ? NEWLINE_A(ref => (this._node = ref))
         : NEWLINE_B(ref => (this._node = ref));
     }
+
+    const additionalProps = {};
+    if (typeof this.props.style === 'object') {
+      additionalProps.style = this.props.style;
+    }
     return (
       <span
         key={this._forceFlag ? 'A' : 'B'}
         data-text="true"
-        ref={ref => (this._node = ref)}>
+        ref={ref => (this._node = ref)}
+        {...additionalProps}>
         {this.props.children}
       </span>
     );
