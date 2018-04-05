@@ -125,6 +125,14 @@ var DraftEditorDragHandler = {
       insertTextAtSelection(editorState, dropSelection, data.getText()),
     );
   },
+
+  /**
+   * Edge disallows drag event by default (A No Symbol (⃠) will be shown on the dragged image by default).
+   * Without preventing the default dragOver handler a drop event can not be triggered.
+   */
+  onDragOver: function onDragOver(editor: DraftEditor, e: Object): void {
+    e.preventDefault();
+  },
 };
 
 function moveText(
