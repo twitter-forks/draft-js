@@ -140,7 +140,7 @@ class DraftEditor extends React.Component<DraftEditorProps, State> {
     blockRenderMap: DefaultDraftBlockRenderMap,
     blockRendererFn: emptyFunction.thatReturnsNull,
     blockStyleFn: emptyFunction.thatReturns(''),
-    customeProps: {},
+    customAttrs: {},
     keyBindingFn: getDefaultKeyBinding,
     readOnly: false,
     spellCheck: false,
@@ -413,7 +413,7 @@ class DraftEditor extends React.Component<DraftEditorProps, State> {
             style={contentStyle}
             suppressContentEditableWarning
             tabIndex={this.props.tabIndex}
-            {...this.props.customProps}>
+            {...this.props.customAttrs}>
             {/*
               Needs to come earlier in the tree as a sibling (not ancestor) of
               all DraftEditorLeaf nodes so it's first in postorder traversal.

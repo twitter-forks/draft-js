@@ -178,14 +178,14 @@ export type DraftEditorProps = {
   // is used for both rendering and paste processing.
   blockRenderMap: DraftBlockRenderMap,
 
-  customProps?: Object,
+  customAttrs?: Object,
 };
 
 export type DraftEditorDefaultProps = {
   blockRenderMap: DraftBlockRenderMap,
   blockRendererFn: (block: BlockNodeRecord) => ?Object,
   blockStyleFn: (block: BlockNodeRecord) => string,
-  customProps: Object,
+  customAttrs: Object,
   keyBindingFn: (e: SyntheticKeyboardEvent<>) => ?string,
   readOnly: boolean,
   spellCheck: boolean,
