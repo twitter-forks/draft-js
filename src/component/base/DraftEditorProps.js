@@ -171,6 +171,7 @@ export type DraftEditorProps = {
   onPaste?: (DraftEditor, SyntheticClipboardEvent<>) => void | Promise<void>,
   onCut?: (DraftEditor, SyntheticClipboardEvent<>) => void,
   onCopy?: (DraftEditor, SyntheticClipboardEvent<>) => void,
+  customAttrs?: Object,
   ...
 };
 
@@ -178,6 +179,7 @@ export type DraftEditorDefaultProps = {
   blockRenderMap: DraftBlockRenderMap,
   blockRendererFn: (block: BlockNodeRecord) => ?Object,
   blockStyleFn: (block: BlockNodeRecord) => string,
+  customAttrs: Object,
   keyBindingFn: (e: SyntheticKeyboardEvent<>) => ?string,
   readOnly: boolean,
   spellCheck: boolean,
