@@ -177,12 +177,15 @@ export type DraftEditorProps = {
   // an element tag and an optional react element wrapper. This configuration
   // is used for both rendering and paste processing.
   blockRenderMap: DraftBlockRenderMap,
+
+  customProps?: Object,
 };
 
 export type DraftEditorDefaultProps = {
   blockRenderMap: DraftBlockRenderMap,
   blockRendererFn: (block: BlockNodeRecord) => ?Object,
   blockStyleFn: (block: BlockNodeRecord) => string,
+  customProps: Object,
   keyBindingFn: (e: SyntheticKeyboardEvent<>) => ?string,
   readOnly: boolean,
   spellCheck: boolean,
