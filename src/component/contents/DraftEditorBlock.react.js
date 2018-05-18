@@ -6,7 +6,6 @@
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * @providesModule DraftEditorBlock.react
  * @format
  * @flow
  */
@@ -135,7 +134,7 @@ class DraftEditorBlock extends React.Component<Props> {
     }
   }
 
-  _renderChildren(): Array<React.Element<any>> {
+  _renderChildren(): Array<React.Node> {
     const block = this.props.block;
     const blockKey = block.getKey();
     const text = block.getText();
@@ -207,7 +206,6 @@ class DraftEditorBlock extends React.Component<Props> {
           start,
           end,
           blockKey,
-          // $FlowFixMe
           entityKey,
           offsetKey: decoratorOffsetKey,
         };

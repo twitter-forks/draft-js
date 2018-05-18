@@ -6,7 +6,6 @@
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * @providesModule DraftEditor.react
  * @format
  * @flow
  * @preventMunge
@@ -288,7 +287,7 @@ class DraftEditor extends React.Component<DraftEditorProps, State> {
     );
   }
 
-  _renderPlaceholder(): ?React.Element<any> {
+  _renderPlaceholder(): React.Node {
     if (this._showPlaceholder()) {
       const placeHolderProps = {
         text: nullthrows(this.props.placeholder),

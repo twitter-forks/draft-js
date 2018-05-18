@@ -1,10 +1,6 @@
 ---
 id: api-reference-editor
 title: Editor Component
-layout: docs
-category: API Reference
-next: api-reference-editor-change-type
-permalink: docs/api-reference-editor.html
 ---
 
 This article discusses the API and props of the core controlled contentEditable
@@ -217,7 +213,7 @@ rendered list of results to trigger applying the mention entity to your content.
 
 #### handleKeyCommand
 ```
-handleKeyCommand?: (command: string, editorState: EditorState) => DraftHandleValue
+handleKeyCommand?: (command: string, editorState: EditorState, eventTimeStamp: number) => DraftHandleValue
 ```
 Handle the named editor command. See
 [Advanced Topics: Key Bindings](/docs/advanced-topics-key-bindings.html)
@@ -225,7 +221,7 @@ for details on usage.
 
 #### handleBeforeInput
 ```
-handleBeforeInput?: (chars: string, editorState: EditorState) => DraftHandleValue
+handleBeforeInput?: (chars: string, editorState: EditorState, eventTimeStamp: number) => DraftHandleValue
 ```
 Handle the characters to be inserted from a `beforeInput` event. Returning `'handled'`
 causes the default behavior of the `beforeInput` event to be prevented (i.e. it is
