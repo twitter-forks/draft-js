@@ -58,6 +58,7 @@ const NEWLINE_B = useNewlineChar ? (
 
 type Props = {
   children: string,
+  style?: Object,
 };
 
 /**
