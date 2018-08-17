@@ -22,8 +22,9 @@ import type {List, OrderedMap} from 'immutable';
 const BlockTree = require('BlockTree');
 const ContentState = require('ContentState');
 const EditorBidiService = require('EditorBidiService');
-const Immutable = require('immutable');
 const SelectionState = require('SelectionState');
+
+const Immutable = require('immutable');
 
 const {OrderedSet, Record, Stack} = Immutable;
 
@@ -340,12 +341,12 @@ class EditorState {
     editorState: EditorState,
     contentState: ContentState,
     changeType: EditorChangeType,
+    forceSelection: boolean = true,
   ): EditorState {
     if (editorState.getCurrentContent() === contentState) {
       return editorState;
     }
 
-    const forceSelection = changeType !== 'insert-characters';
     const directionMap = EditorBidiService.getDirectionMap(
       contentState,
       editorState.getDirectionMap(),
