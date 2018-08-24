@@ -23,7 +23,7 @@ const invariant = require('invariant');
  * with only a newline character, we can be sure to render a single line.
  *
  * In addition, Windows 10's touch keyboard (enabled in Tablet mode)
- * will delete <br> in a span when swipe feature is used (similar to swype), which causes
+ * deletes <br> in the span when swipe feature is used (similar to swype), which causes
  * corrupt state. Given swipe feature only seem to be enabled in Edge, fallback to use
  * new line character in Edge as well.
  */
