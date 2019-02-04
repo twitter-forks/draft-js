@@ -266,7 +266,7 @@ class DraftEditor extends React.Component<DraftEditorProps, State> {
        * run Flow. */
       ReactDOM.unstable_flushControlled;
     // Wrap event handlers in `flushControlled`. In sync mode, this is
-    // effetively a no-op. In async mode, this ensures all updates scheduled
+    // effectively a no-op. In async mode, this ensures all updates scheduled
     // inside the handler are flushed before React yields to the browser.
     return e => {
       if (!this.props.readOnly) {
