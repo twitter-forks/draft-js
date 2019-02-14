@@ -5,20 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  *
  * @emails oncall+draft_js
- * @flow strict-local
  * @format
  */
 
 'use strict';
 
 jest.disableAutomock();
-expect.addSnapshotSerializer(require('NonASCIIStringSnapshotSerializer'));
 
 jest.mock('generateRandomKey');
 
 const DefaultDraftBlockRenderMap = require('DefaultDraftBlockRenderMap');
 
-const convertFromHTMLToContentBlocks = require('convertFromHTMLToContentBlocks');
+const convertFromHTMLToContentBlocks = require('convertFromHTMLToContentBlocks2');
 const cx = require('cx');
 const getSafeBodyFromHTML = require('getSafeBodyFromHTML');
 
@@ -92,26 +90,22 @@ const convertFromHTML = (html_string, config) => {
 };
 
 const AreTreeBlockNodesEquivalent = (html_string, config = {}) => {
-  const treeEnabled = (
-    convertFromHTML(html_string, {
-      ...config,
-      experimentalTreeDataSupport: true,
-    })?.contentBlocks || []
-  ).map(block => normalizeBlock(block.toJS()));
+  const treeEnabled = convertFromHTML(html_string, {
+    ...config,
+    experimentalTreeDataSupport: true,
+  }).contentBlocks.map(block => normalizeBlock(block.toJS()));
 
-  const treeDisabled = (
-    convertFromHTML(html_string, {
-      ...config,
-      experimentalTreeDataSupport: false,
-    })?.contentBlocks || []
-  ).map(block => normalizeBlock(block.toJS()));
+  const treeDisabled = convertFromHTML(html_string, {
+    ...config,
+    experimentalTreeDataSupport: false,
+  }).contentBlocks.map(block => normalizeBlock(block.toJS()));
 
   return JSON.stringify(treeEnabled) === JSON.stringify(treeDisabled);
 };
 
 const assertConvertFromHTMLToContentBlocks = (html_string, config = {}) => {
   expect(
-    (convertFromHTML(html_string, config)?.contentBlocks || []).map(block =>
+    convertFromHTML(html_string, config).contentBlocks.map(block =>
       block.toJS(),
     ),
   ).toMatchSnapshot();
@@ -127,9 +121,10 @@ const testConvertingAdjacentHtmlElementsToContentBlocks = (
       <${tag}>b</${tag}>
     `;
 
-    assertConvertFromHTMLToContentBlocks(html_string, {
+    assertConvertFromHTMLToContentBlocks(
+      html_string,
       experimentalTreeDataSupport,
-    });
+    );
   });
 };
 
@@ -151,65 +146,21 @@ test('img with http protocol should have camera emoji content', () => {
   const blocks = convertFromHTMLToContentBlocks(
     '<img src="http://www.facebook.com">',
   );
-  expect(blocks?.contentBlocks?.[0].text).toMatchSnapshot();
-  const entityMap = blocks?.entityMap;
-  expect(entityMap).not.toBe(null);
-  if (entityMap != null) {
-    expect(
-      entityMap.__get(entityMap.__getLastCreatedEntityKey()).mutability,
-    ).toBe('IMMUTABLE');
-  }
-});
-
-test('img with https protocol should have camera emoji content', () => {
-  const blocks = convertFromHTMLToContentBlocks(
-    '<img src="https://www.facebook.com">',
-  );
-  expect(blocks?.contentBlocks?.[0].text).toMatchSnapshot();
-  const entityMap = blocks?.entityMap;
-  expect(entityMap).not.toBe(null);
-  if (entityMap != null) {
-    expect(
-      entityMap.__get(entityMap.__getLastCreatedEntityKey()).mutability,
-    ).toBe('IMMUTABLE');
-  }
+  expect(blocks.contentBlocks[0].text).toMatchSnapshot();
 });
 
 test('img with data protocol should be correctly parsed', () => {
   const blocks = convertFromHTMLToContentBlocks(
     `<img src="${IMAGE_DATA_URL}">`,
   );
-  expect(blocks?.contentBlocks?.[0].text).toMatchSnapshot();
+  expect(blocks.contentBlocks[0].text).toMatchSnapshot();
 });
 
 test('img with role presentation should not be rendered', () => {
   const blocks = convertFromHTMLToContentBlocks(
     `<img src="${IMAGE_DATA_URL}" role="presentation">`,
   );
-  expect(blocks?.contentBlocks).toMatchSnapshot();
-});
-
-test('line break should be correctly parsed - single <br>', () => {
-  const blocks = convertFromHTMLToContentBlocks(
-    `<div>
-      <b>Hello World!</b>
-      <br />
-      lorem ipsum
-    </div>`,
-  );
-  expect(blocks?.contentBlocks).toMatchSnapshot();
-});
-
-test('line break should be correctly parsed - multiple <br> in a content block', () => {
-  const blocks = convertFromHTMLToContentBlocks(
-    `<div>
-      <b>Hello World!</b>
-      <br />
-      <br />
-      lorem ipsum
-    </div>`,
-  );
-  expect(blocks?.contentBlocks).toMatchSnapshot();
+  expect(blocks.contentBlocks).toMatchSnapshot();
 });
 
 test('line break should be correctly parsed - single <br>', () => {
@@ -237,7 +188,7 @@ test('line break should be correctly parsed - multiple <br> in a content block',
 
 test('highlighted text should be recognized and considered styled characters', () => {
   const blocks = convertFromHTMLToContentBlocks(`<mark>test</mark>`);
-  expect(blocks?.contentBlocks).toMatchSnapshot();
+  expect(blocks.contentBlocks).toMatchSnapshot();
 });
 
 test('converts nested html blocks when experimentalTreeDataSupport is enabled', () => {
@@ -303,22 +254,6 @@ test('does not convert deeply nested html blocks when experimentalTreeDataSuppor
   });
 });
 
-test('eliminates useless blocks when experimentalTreeDataSupport is disabled', () => {
-  const html_string = `
-    <div>
-      <div>
-        <div>Hello</div>
-      </div>
-      <div>World</div>
-    </div>
-  `;
-
-  expect(AreTreeBlockNodesEquivalent(html_string)).toMatchSnapshot();
-  assertConvertFromHTMLToContentBlocks(html_string, {
-    experimentalTreeDataSupport: false,
-  });
-});
-
 SUPPORTED_TAGS.forEach(tag =>
   testConvertingAdjacentHtmlElementsToContentBlocks(tag, true),
 );
@@ -372,22 +307,6 @@ test('Should not create empty container blocks around ol and their list items wh
   });
 });
 
-// Regression test for issue https://github.com/facebook/draft-js/issues/1822
-test('Should convert heading block after converting new line string', () => {
-  // Convert an HTML string containing a newline
-  // This was previously altering the module's internal state
-  convertFromHTML('a\n');
-  // Convert again, and assert this is not affected by the previous conversion
-  const contentBlocks = convertFromHTML('<h1>heading</h1>')?.contentBlocks;
-  expect(contentBlocks?.length).toBe(1);
-  const contentBlock = contentBlocks?.[0];
-  // #FIXME: Flow does not yet support method or property calls in optional chains.
-  if (contentBlock != null) {
-    expect(contentBlock.getType()).toBe('header-one');
-    expect(contentBlock.getText()).toBe('heading');
-  }
-});
-
 test('Should preserve entities for whitespace-only content', () => {
   const html_string = `
     <a href="http://www.facebook.com">
@@ -433,25 +352,6 @@ test('Should preserve spacing around inline tags', () => {
   const html_string = `
     <span>Some<span> </span></span><i>stylised</i><span><span> </span></span><b>text</b>
   `;
-  assertConvertFromHTMLToContentBlocks(html_string, {
-    experimentalTreeDataSupport: true,
-  });
-});
-
-test('Should scope attribute styles', () => {
-  const html_string = `
-    <span style="font-weight: 700">these</span>
-    <span style="font-style: italic">won't</span>
-    <span style="text-decoration: underline">accumulate styles</span>
-    <span style="font-weight: 700">
-      <span style="font-style: italic">
-        <span style="text-decoration: underline">
-          <span>but this span will</span>
-        </span>
-      </span>
-    </span>
-  `;
-
   assertConvertFromHTMLToContentBlocks(html_string, {
     experimentalTreeDataSupport: true,
   });
@@ -538,16 +438,5 @@ test('Should recognized and *not* override html structure when having known draf
   `;
   assertConvertFromHTMLToContentBlocks(html_string, {
     experimentalTreeDataSupport: true,
-  });
-});
-
-test('Should import line breaks without creating a leading space', () => {
-  const html_string = `
-    Line 1<br/>
-    Line 2<br/>
-    Line 3
-  `;
-  assertConvertFromHTMLToContentBlocks(html_string, {
-    experimentalTreeDataSupport: false,
   });
 });
