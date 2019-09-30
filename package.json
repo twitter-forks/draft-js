@@ -4,7 +4,7 @@
   },
   "name": "draft-js",
   "description": "A React framework for building text editors.",
-  "version": "0.10.5-twitter-forks.2",
+  "version": "0.11.0-twitter-forks.1-beta1",
   "keywords": [
     "draftjs",
     "editor",
