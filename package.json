@@ -1,7 +1,10 @@
 {
+  "publishConfig": {
+    "registry": "https://artifactory.twitter.biz/api/npm/js-releases-local"
+  },
   "name": "draft-js",
   "description": "A React framework for building text editors.",
-  "version": "0.11.0-twitter-forks.1",
+  "version": "0.11.0-twitter-forks.1-beta1",
   "keywords": [
     "draftjs",
     "editor",
