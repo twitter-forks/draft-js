@@ -26,7 +26,9 @@ const isElement = require('isElement');
  * would tries to remove the <br> tag, which may already been removed by Edge.
  * This causes the render to fail. Fall back to \n on Edge as well, for this reason.
  */
- const useNewlineChar = UserAgent.isBrowser('IE <= 11') || UserAgent.isBrowser('Edge');
+const useNewlineChar =
+  UserAgent.isBrowser('IE <= 11') ||
+  (UserAgent.isBrowser('Edge') && !UserAgent.isEngine('Blink'));
 
 /**
  * Check whether the node should be considered a newline.
